@@ -121,11 +121,14 @@ const getTaskbyId = async (req, res) => {
 
     let userTasks = user.tasks.filter((task) => task._id == id);
 
-    if (userTasks) {
+    if (userTasks != []) {
       return res
         .status(201)
         .json({ result: userTasks[0], message: "Task found!" });
-    } else return res.status(500).json({ message: "Task not found! Check Id again!" });
+    } else
+      return res
+        .status(404)
+        .json({ message: "Task not found! Check Id again!" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error occures!", error });
