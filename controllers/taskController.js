@@ -53,11 +53,19 @@ const postTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, title, desc, priority, deadline } = req.body;
     console.log("RES BODY PATCH", req.body);
     const result = await usersSchema.updateOne(
       { email: req.user.email, "tasks._id": id },
-      { $set: { "tasks.$.status": status } },
+      {
+        $set: {
+          "tasks.$.status": status,
+          "tasks.$.title": title,
+          "tasks.$.desc": desc,
+          "tasks.$.priority": priority,
+          "tasks.$.deadline": deadline,
+        },
+      },
       { return: true }
     );
 
