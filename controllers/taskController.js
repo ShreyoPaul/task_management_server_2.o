@@ -121,7 +121,7 @@ const getTaskbyId = async (req, res) => {
 
     let userTasks = user.tasks.filter((task) => task._id == id);
 
-    if (userTasks != []) {
+    if (userTasks.length > 0) {
       return res
         .status(201)
         .json({ result: userTasks[0], message: "Task found!" });
