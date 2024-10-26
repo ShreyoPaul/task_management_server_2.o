@@ -110,10 +110,33 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const getTaskbyId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("ID", id);
+
+    const user = await usersSchema.findOne({ email: req.user.email });
+
+    if (!user) return res.status(404).json({ message: "User not found!" });
+
+    let userTasks = user.tasks.filter((task) => task._id == id);
+
+    if (userTasks) {
+      return res
+        .status(201)
+        .json({ result: userTasks[0], message: "Task found!" });
+    } else return res.status(500).json({ message: "Task not found! Check Id again!" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error occures!", error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getTask,
   postTask,
   updateTask,
   deleteTask,
+  getTaskbyId,
 };
